@@ -4,6 +4,7 @@ import { GlobalStyle, Thumb } from './GlobalStyle';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Searchbar } from './Searchbar/Searchbar';
 import { fetchImages } from '../api';
+import { Loader } from './Loader/Loader';
 
 import { nanoid } from 'nanoid';
 
@@ -12,6 +13,7 @@ export class App extends Component {
     search: '',
     images: [],
     page: 1,
+    totalImg: 0,
     isLoading: false,
   };
 
@@ -20,18 +22,23 @@ export class App extends Component {
     const fullSearch = this.state.search;
     const mainSearch = fullSearch.slice(9, fullSearch.length);
 
-    try {
-      const searchResult = await fetchImages(mainSearch, imagePage);
-      console.log(searchResult);
-      const { hits } = searchResult;
+    if (prevState.search !== fullSearch || prevState.page !== imagePage) {
+      this.setState({ isLoading: true });
 
-      if (prevState.search !== fullSearch || prevState.page !== imagePage) {
-        this.setState(prevState => ({
-          images: [...prevState.images, ...hits],
-        }));
-      }
-    } catch (err) {
-      console.error(err);
+      setTimeout(async () => {
+        try {
+          const { hits, totalHits } = await fetchImages(mainSearch, imagePage);
+
+          this.setState(prevState => ({
+            images: [...prevState.images, ...hits],
+            totalImg: totalHits,
+          }));
+        } catch (err) {
+          console.error(err);
+        } finally {
+          this.setState({ isLoading: false });
+        }
+      }, 1000);
     }
   }
 
@@ -44,7 +51,6 @@ export class App extends Component {
       return;
     }
     this.onChangeSearch(currentSearch);
-    console.log(e.target.elements.search.value);
     e.target.reset();
   };
 
@@ -63,11 +69,13 @@ export class App extends Component {
   };
 
   render() {
+    const { images, isLoading } = this.state;
     return (
       <Thumb>
         <Searchbar onSubmit={this.onSubmitSearch} />
-        <ImageGallery images={this.state.images} />
-        <Button changePage={this.onChangePage} />
+        {isLoading ? <Loader /> : <ImageGallery images={images} />}
+
+        {images.length > 0 ? <Button changePage={this.onChangePage} /> : null}
 
         <GlobalStyle />
       </Thumb>

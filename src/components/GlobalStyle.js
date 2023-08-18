@@ -28,7 +28,13 @@ img {
   display: block;
   max-width: 100%;
   height: auto;
-}`;
+}
+
+.dna-wrapper{
+  margin: auto;
+  /* padding-bottom: 100px; */
+}
+`;
 
 export const Thumb = styled.div`
   display: grid;
