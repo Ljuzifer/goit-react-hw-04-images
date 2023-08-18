@@ -22,10 +22,11 @@ const notiOps = {
 };
 
 const error = () => toast.error('Oops, something went wrong...', notiOps);
-const success = total =>
-  toast.success(`Cool!!! We find ${total} photos!`, notiOps);
 const warn = () => toast.warn('Sorry, you must enter some text...', notiOps);
+const empty = () => toast.warn('Sorry, no photos with this query...', notiOps);
 const info = () => toast.info('Oops! No more photos :(', notiOps);
+const success = total =>
+  toast.success(`Cool!!! We found ${total} photos!`, notiOps);
 
 export class App extends Component {
   state = {
@@ -47,8 +48,10 @@ export class App extends Component {
       setTimeout(async () => {
         try {
           const { hits, totalHits } = await fetchImages(mainSearch, imagePage);
-          if (this.state.totalImg === 0) {
+          if (totalHits !== 0 && this.state.totalImg === 0) {
             success(totalHits);
+          } else if (totalHits === 0) {
+            empty();
           }
 
           this.setState(prevState => ({
@@ -56,7 +59,10 @@ export class App extends Component {
             totalImg: totalHits,
           }));
 
-          if (prevState.images.length + hits.length === totalHits) {
+          if (
+            prevState.images.length + hits.length === totalHits &&
+            this.state.totalImg > 0
+          ) {
             info();
           }
         } catch (err) {
