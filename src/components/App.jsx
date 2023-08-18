@@ -38,7 +38,7 @@ export class App extends Component {
         } finally {
           this.setState({ isLoading: false });
         }
-      }, 1000);
+      }, 800);
     }
   }
 
@@ -59,6 +59,7 @@ export class App extends Component {
       search: `${nanoid(8)}/${newSymbol}`,
       images: [],
       page: 1,
+      totalImg: 0,
     });
   };
 
@@ -69,14 +70,15 @@ export class App extends Component {
   };
 
   render() {
-    const { images, isLoading } = this.state;
+    const { images, totalImg, isLoading } = this.state;
     return (
       <Thumb>
         <Searchbar onSubmit={this.onSubmitSearch} />
-        {isLoading ? <Loader /> : <ImageGallery images={images} />}
-
-        {images.length > 0 ? <Button changePage={this.onChangePage} /> : null}
-
+        <ImageGallery images={images} />
+        {isLoading && <Loader />}
+        {images.length === 0 || images.length === totalImg ? null : (
+          <Button changePage={this.onChangePage} />
+        )}
         <GlobalStyle />
       </Thumb>
     );
