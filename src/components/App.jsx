@@ -74,11 +74,15 @@ export class App extends Component {
     return (
       <Thumb>
         <Searchbar onSubmit={this.onSubmitSearch} />
+
         <ImageGallery images={images} />
+
         {isLoading && <Loader />}
+
         {images.length === 0 || images.length === totalImg ? null : (
           <Button changePage={this.onChangePage} />
         )}
+
         <GlobalStyle />
       </Thumb>
     );

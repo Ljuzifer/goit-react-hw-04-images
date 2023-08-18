@@ -32,7 +32,6 @@ img {
 
 .dna-wrapper{
   margin: auto;
-  /* padding-bottom: 100px; */
 }
 `;
 
