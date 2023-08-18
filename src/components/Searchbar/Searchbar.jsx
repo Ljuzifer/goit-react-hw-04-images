@@ -1,5 +1,4 @@
 import { HeaderThumb, IconSearch } from './Searchbar.styled';
-// import { FcSearch } from 'react-icons/fc';
 
 export const Searchbar = ({ onSubmit }) => {
   return (
@@ -11,10 +10,9 @@ export const Searchbar = ({ onSubmit }) => {
 
         <input
           name="search"
-          // class="input"
           type="text"
-          // autocomplete="off"
-          // autofocus
+          autoComplete="off"
+          autoFocus
           placeholder="Search images and photos"
         />
       </form>

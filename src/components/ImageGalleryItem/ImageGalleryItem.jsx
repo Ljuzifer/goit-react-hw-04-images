@@ -1,7 +1,7 @@
-export const ImageGalleryItem = ({ hits }) => {
+export const ImageGalleryItem = ({ image, largeImage, description }) => {
   return (
     <>
-      <img src="" alt="" />
+      <img src={image} alt={description} />
     </>
   );
 };

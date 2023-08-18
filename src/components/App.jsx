@@ -6,33 +6,30 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { fetchImages } from '../api';
 
 import { nanoid } from 'nanoid';
-import axios from 'axios';
-
-axios.defaults.baseURL = 'https://pixabay.com/api/';
-
-const API_KEY = '38110129-67a9a84d818f0afdbf48a1e7d';
 
 export class App extends Component {
   state = {
     search: '',
     images: [],
     page: 1,
+    isLoading: false,
   };
 
   async componentDidUpdate(prevProps, prevState) {
     const imagePage = this.state.page;
     const fullSearch = this.state.search;
-    const partSearch = fullSearch.slice(9, fullSearch.length);
+    const mainSearch = fullSearch.slice(9, fullSearch.length);
 
     try {
-      const search = await fetchImages(partSearch, imagePage);
-      console.log(search);
+      const searchResult = await fetchImages(mainSearch, imagePage);
+      console.log(searchResult);
+      const { hits } = searchResult;
 
-      // if (prevState.search !== fullSearch || prevState.page !== imagePage) {
-      //   this.setState(prevState => ({
-      //     images: [...prevState.images, response.data],
-      //   }));
-      // }
+      if (prevState.search !== fullSearch || prevState.page !== imagePage) {
+        this.setState(prevState => ({
+          images: [...prevState.images, ...hits],
+        }));
+      }
     } catch (err) {
       console.error(err);
     }
@@ -40,7 +37,13 @@ export class App extends Component {
 
   onSubmitSearch = e => {
     e.preventDefault();
-    this.onChangeSearch(e.target.elements.search.value);
+    const currentSearch = e.target.elements.search.value.trim();
+    if (currentSearch === '') {
+      e.target.reset();
+      alert('No, no, no...');
+      return;
+    }
+    this.onChangeSearch(currentSearch);
     console.log(e.target.elements.search.value);
     e.target.reset();
   };
@@ -60,12 +63,10 @@ export class App extends Component {
   };
 
   render() {
-    const data = this.state.images;
-    // console.log(data);
     return (
       <Thumb>
         <Searchbar onSubmit={this.onSubmitSearch} />
-        {/* <ImageGallery imageData={data} /> */}
+        <ImageGallery images={this.state.images} />
         <Button changePage={this.onChangePage} />
 
         <GlobalStyle />
