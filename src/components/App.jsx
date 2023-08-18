@@ -7,6 +7,25 @@ import { fetchImages } from '../api';
 import { Loader } from './Loader/Loader';
 
 import { nanoid } from 'nanoid';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const notiOps = {
+  position: 'top-right',
+  autoClose: 2800,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: 'dark',
+};
+
+const error = () => toast.error('Oops, something went wrong...', notiOps);
+const success = total =>
+  toast.success(`Cool!!! We find ${total} photos!`, notiOps);
+const warn = () => toast.warn('Sorry, you must enter some text...', notiOps);
+const info = () => toast.info('Oops! No more photos :(', notiOps);
 
 export class App extends Component {
   state = {
@@ -28,13 +47,21 @@ export class App extends Component {
       setTimeout(async () => {
         try {
           const { hits, totalHits } = await fetchImages(mainSearch, imagePage);
+          if (this.state.totalImg === 0) {
+            success(totalHits);
+          }
 
           this.setState(prevState => ({
             images: [...prevState.images, ...hits],
             totalImg: totalHits,
           }));
+
+          if (prevState.images.length + hits.length === totalHits) {
+            info();
+          }
         } catch (err) {
-          console.error(err);
+          console.info(err);
+          error();
         } finally {
           this.setState({ isLoading: false });
         }
@@ -47,7 +74,7 @@ export class App extends Component {
     const currentSearch = e.target.elements.search.value.trim();
     if (currentSearch === '') {
       e.target.reset();
-      alert('No, no, no...');
+      warn();
       return;
     }
     this.onChangeSearch(currentSearch);
@@ -83,6 +110,7 @@ export class App extends Component {
           <Button changePage={this.onChangePage} />
         )}
 
+        <ToastContainer />
         <GlobalStyle />
       </Thumb>
     );
