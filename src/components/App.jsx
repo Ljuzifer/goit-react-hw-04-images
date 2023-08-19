@@ -3,12 +3,12 @@ import { Button } from './Button/Button';
 import { GlobalStyle, Thumb } from './GlobalStyle';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Searchbar } from './Searchbar/Searchbar';
-import { fetchImages } from './services/api';
 import { Loader } from './Loader/Loader';
 
 import { nanoid } from 'nanoid';
 import { ToastContainer } from 'react-toastify';
-import { success, error, warn, info, empty } from './services/toasts';
+import { success, error, warn, info, empty } from '../services/toasts';
+import { fetchImages } from '../services/api';
 
 export class App extends Component {
   state = {
@@ -61,12 +61,12 @@ export class App extends Component {
     e.preventDefault();
     const currentSearch = e.target.elements.search.value.trim();
     if (currentSearch === '') {
-      e.target.reset();
+      // e.target.reset();
       warn();
       return;
     }
     this.onChangeSearch(currentSearch);
-    e.target.reset();
+    // e.target.reset();
   };
 
   onChangeSearch = newSymbol => {
