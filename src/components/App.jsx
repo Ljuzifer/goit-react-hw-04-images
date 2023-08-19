@@ -3,30 +3,12 @@ import { Button } from './Button/Button';
 import { GlobalStyle, Thumb } from './GlobalStyle';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Searchbar } from './Searchbar/Searchbar';
-import { fetchImages } from '../api';
+import { fetchImages } from './services/api';
 import { Loader } from './Loader/Loader';
 
 import { nanoid } from 'nanoid';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-const notiOps = {
-  position: 'top-right',
-  autoClose: 2800,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  progress: undefined,
-  theme: 'dark',
-};
-
-const error = () => toast.error('Oops, something went wrong...', notiOps);
-const warn = () => toast.warn('Sorry, you must enter some text...', notiOps);
-const empty = () => toast.warn('Sorry, no photos with this query...', notiOps);
-const info = () => toast.info('Oops! No more photos :(', notiOps);
-const success = total =>
-  toast.success(`Cool!!! We found ${total} photos!`, notiOps);
+import { ToastContainer } from 'react-toastify';
+import { success, error, warn, info, empty } from './services/toasts';
 
 export class App extends Component {
   state = {
