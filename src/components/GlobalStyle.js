@@ -33,6 +33,7 @@ img {
 
 .dna-wrapper{
   margin: auto;
+  /* background-color: black; */
 }
 `;
 
@@ -58,6 +59,7 @@ export const CloseModalBtn = styled.button`
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.2);
   padding: 8px;
+  cursor: pointer;
 
   svg {
     width: 100%;
