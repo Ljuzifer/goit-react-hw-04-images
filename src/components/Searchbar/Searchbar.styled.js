@@ -15,7 +15,10 @@ export const HeaderThumb = styled.header`
   padding-top: 12px;
   padding-bottom: 12px;
   color: #fff;
-  background-color: #3f51b5;
+  width: 888px;
+  border-radius: 28px;
+  margin: auto;
+  background-color: #080808ef;
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 
@@ -23,9 +26,10 @@ export const HeaderThumb = styled.header`
     display: flex;
     align-items: center;
     width: 100%;
+    height: 44px;
     max-width: 600px;
     background-color: #fff;
-    border-radius: 3px;
+    border-radius: 22px;
     overflow: hidden;
   }
 
@@ -47,12 +51,14 @@ export const HeaderThumb = styled.header`
   input {
     display: block;
     width: 100%;
+    height: 44px;
     font: inherit;
-    font-size: 20px;
+    font-size: 22px;
     border: none;
     outline: none;
-    padding-left: 4px;
-    padding-right: 4px;
+    text-align: center;
+    padding-left: 13px;
+    padding-right: 13px;
   }
 
   input::placeholder {

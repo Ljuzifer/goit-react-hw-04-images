@@ -1,5 +1,7 @@
 import { ModalBox } from 'components/Modal/Modal';
+import { SlLike } from 'react-icons/sl';
 import { Component } from 'react';
+import { LikeThumb } from './ImageGalleryItem.styled';
 
 export class ImageGalleryItem extends Component {
   state = {
@@ -15,11 +17,14 @@ export class ImageGalleryItem extends Component {
   };
 
   render() {
-    const { image, largeImage, description } = this.props;
+    const { image, largeImage, description, likes } = this.props;
 
     return (
       <>
         <img src={image} alt={description} onClick={this.openModal} />
+        <LikeThumb>
+          <SlLike /> {likes}
+        </LikeThumb>
         <ModalBox
           bigPhoto={largeImage}
           alt={description}
