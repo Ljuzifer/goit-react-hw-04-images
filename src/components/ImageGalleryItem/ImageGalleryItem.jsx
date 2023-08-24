@@ -1,54 +1,48 @@
 import { ModalBox } from 'components/Modal/Modal';
 import { SlLike } from 'react-icons/sl';
-import { Component } from 'react';
+import { useState } from 'react';
 import { LikeThumb } from './ImageGalleryItem.styled';
 
-export class ImageGalleryItem extends Component {
-  state = {
-    isModalOpen: false,
-    isLikesVisible: false,
+export const ImageGalleryItem = ({ image, largeImage, description, likes }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLikesVisible, setIsLikesVisible] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
   };
 
-  openModal = () => {
-    this.setState({ isModalOpen: true });
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
-  closeModal = () => {
-    this.setState({ isModalOpen: false });
+  const handleLikesVisible = () => {
+    setIsLikesVisible(true);
   };
 
-  handleLikesVisible = () => {
-    this.setState({ isLikesVisible: true });
+  const handleLikesUnvisible = () => {
+    setIsLikesVisible(false);
   };
 
-  handleLikesUnvisible = () => {
-    this.setState({ isLikesVisible: false });
-  };
-
-  render() {
-    const { image, largeImage, description, likes } = this.props;
-
-    return (
-      <>
-        <img
-          src={image}
-          alt={description}
-          onClick={this.openModal}
-          onMouseOver={this.handleLikesVisible}
-          onMouseOut={this.handleLikesUnvisible}
-        />
-        {this.state.isLikesVisible && (
-          <LikeThumb>
-            <SlLike /> {likes}
-          </LikeThumb>
-        )}
-        <ModalBox
-          bigPhoto={largeImage}
-          alt={description}
-          forClose={this.closeModal}
-          state={this.state.isModalOpen}
-        />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <img
+        src={image}
+        alt={description}
+        onClick={openModal}
+        onMouseOver={handleLikesVisible}
+        onMouseOut={handleLikesUnvisible}
+      />
+      {isLikesVisible && (
+        <LikeThumb>
+          <SlLike /> {likes}
+        </LikeThumb>
+      )}
+      <ModalBox
+        bigPhoto={largeImage}
+        alt={description}
+        forClose={closeModal}
+        state={isModalOpen}
+      />
+    </>
+  );
+};
