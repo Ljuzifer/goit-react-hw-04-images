@@ -22,7 +22,6 @@ export const App = () => {
     setIsLoading(true);
 
     const currentSearch = e.target.elements.search.value.trim();
-    console.log(currentSearch);
     if (currentSearch === '') {
       warn();
       setIsLoading(false);
@@ -39,7 +38,6 @@ export const App = () => {
         } else if (totalHits === 0) {
           empty();
         }
-        console.log(hits);
 
         setImages(prev => [...prev, ...hits]);
         setTotalImg(totalHits);
@@ -54,7 +52,6 @@ export const App = () => {
   };
 
   const onChangeSearch = async newSymbol => {
-    console.log(newSymbol);
     setSearch(`${nanoid(8)}/${newSymbol}`);
     setImages([]);
     setPage(1);
